@@ -1,5 +1,0 @@
-D:/My Documents/PatientManagmentSystem/PatientManagmentSystem/out/build/x64-debug/CMakeFiles/edit_cache.dir
-D:/My Documents/PatientManagmentSystem/PatientManagmentSystem/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
-D:/My Documents/PatientManagmentSystem/PatientManagmentSystem/out/build/x64-debug/PatientManagmentSystem/CMakeFiles/PatientManagmentSystem.dir
-D:/My Documents/PatientManagmentSystem/PatientManagmentSystem/out/build/x64-debug/PatientManagmentSystem/CMakeFiles/edit_cache.dir
-D:/My Documents/PatientManagmentSystem/PatientManagmentSystem/out/build/x64-debug/PatientManagmentSystem/CMakeFiles/rebuild_cache.dir
