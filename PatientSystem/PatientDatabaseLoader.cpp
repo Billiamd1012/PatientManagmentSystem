@@ -5,6 +5,7 @@
 
 #include "Patient.h"
 #include "Vitals.h"
+#include "PatientFileLoader.h"
 
 
 void PatientDatabaseLoader::initialiseConnection()
@@ -30,6 +31,13 @@ void PatientDatabaseLoader::loadPatients(std::vector<Patient*>& patientIn){
 
     patientIn.push_back(p);
 
+    //now load patients from the patients.txt file
+    PatientFileLoader pfl;
+    std::vector<Patient*> patientsFromFile = pfl.loadPatientFile("patients.txt");
+
+    for (int i = 0; i < patientsFromFile.size(); i++) {
+        patientIn.push_back(patientsFromFile[i]);
+    }
 }
 
 void PatientDatabaseLoader::closeConnection()
