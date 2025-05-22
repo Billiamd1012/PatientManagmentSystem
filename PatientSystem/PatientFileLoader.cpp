@@ -24,18 +24,22 @@ std::vector<Patient*> PatientFileLoader::loadPatientFile(const std::string& file
             std::string firstName;
             std::string lastName;
             std::tm birthday;
+            int loc;
             std::cout << "Read line: " << line << std::endl;
             // use std::getline to split on the |
             std::stringstream lineStream(line);
             std::string token;
             int patientEditSelector = 0;
             while (std::getline(lineStream, token, '|')) {
-                std::cout << "Read info" << token << std::endl;
                 //for each part of line add patient info
                 switch (patientEditSelector)
                 {
-                case 0:
-
+                case 1:
+                    //get the patient first and last name
+                    //get the location of the , delimiter
+                    loc = token.find(',');
+                    firstName = token.substr(0, loc);
+                    lastName = token.substr(loc+1, token.size());
                 default:
                         break;
                 }
