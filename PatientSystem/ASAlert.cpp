@@ -1,4 +1,5 @@
-#include "ASAlert.h";
+#include "ASAlert.h"
+#include "Vitals.h"
 
 AlertLevel ASAlert::checkVitals(const Vitals* vitals, const Patient* patient) {
 	AlertLevel alertLevel = AlertLevel::Green;

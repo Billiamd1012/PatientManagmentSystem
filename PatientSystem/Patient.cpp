@@ -5,6 +5,7 @@
 #include <sstream>
 
 #include "Vitals.h"
+#include "AlertContext.h"
 
 
 using namespace std;
@@ -59,6 +60,7 @@ std::ostream& operator<<(std::ostream& os, const Patient& p)
 void Patient::addDiagnosis(const std::string& diagnosis)
 {
 	_diagnosis.push_back(diagnosis);
+	_alertContext.setStrategy(_diagnosis.front());
 }
 
 const std::string& Patient::primaryDiagnosis() const
@@ -71,6 +73,7 @@ void Patient::addVitals(const Vitals* v)
 	_vitals.push_back(v);
 
 	// TODO: calculate alert levels
+	setAlertLevel(_alertContext.runStrategy(v, this));
 }
 
 const std::vector<const Vitals*> Patient::vitals() const

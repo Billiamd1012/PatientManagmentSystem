@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "PatientAlertLevels.h"
+#include "AlertContext.h"
 
 
 // forward declare classes
@@ -51,6 +52,7 @@ protected:
 	std::vector<std::string> _diagnosis;
 	std::vector<const Vitals*> _vitals;
 	AlertLevel _alertLevel;
+	AlertContext _alertContext;
 
 	friend std::ostream& operator<<(std::ostream& os, const Patient& p);
 };

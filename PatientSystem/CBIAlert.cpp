@@ -1,4 +1,5 @@
-#include "CBIAlert.h";
+#include "CBIAlert.h"
+#include "Vitals.h"
 
 AlertLevel CBIAlert::checkVitals(const Vitals* vitals, const Patient* patient) {
 	AlertLevel alertLevel = AlertLevel::Green;

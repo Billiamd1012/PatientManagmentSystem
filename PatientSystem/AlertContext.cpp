@@ -1,11 +1,32 @@
 #include "AlertContext.h"
+#include "ASAlert.h"
+#include "CBIAlert.h"
+#include "KSAlert.h"
 
-void AlertContext::setStrategy(AbstractAlert alert)
-{
-	currentStrategy = alert;
+AlertContext::~AlertContext() {
+    // Free the memory when the AlertContext object is destroyed
+    delete currentStrategy;
 }
 
-void AlertContext::runStrategy(const Vitals* vitals, const Patient* patient)
-{
-	currentStrategy.checkVitals(vitals, patient);
+void AlertContext::setStrategy(std::string alert) {
+    // First, delete the old strategy if one exists to prevent memory leaks
+    delete currentStrategy;
+    currentStrategy = nullptr;
+
+    if (alert == "Cordyceps Brain Infection") {
+        currentStrategy = new CBIAlert();
+    }
+    else if (alert == "Kepral’s Syndrome") {
+        currentStrategy = new KSAlert();
+    }
+    else if (alert == "Andromeda Strain") {
+        currentStrategy = new ASAlert();
+    }
+}
+
+AlertLevel AlertContext::runStrategy(const Vitals* vitals, const Patient* patient) {
+    if (currentStrategy) {
+        return currentStrategy->checkVitals(vitals, patient);
+    }
+    return AlertLevel::Green;
 }

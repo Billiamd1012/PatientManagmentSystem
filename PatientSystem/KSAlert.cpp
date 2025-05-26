@@ -1,4 +1,6 @@
-#include "KSAlert.h";
+#include "KSAlert.h"
+#include "Vitals.h"
+#include "Patient.h"
 
 AlertLevel KSAlert::checkVitals(const Vitals* vitals, const Patient* patient) {
 	AlertLevel alertLevel = AlertLevel::Green;

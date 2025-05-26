@@ -1,14 +1,17 @@
 #pragma once
 
 #include "AbstractAlert.h"
-#include "Vitals.h"
-#include "Patient.h"
+#include <string>
+
+class Vitals;
+class Patient;
 
 
 class AlertContext {
 public:
-	void setStrategy(AbstractAlert alert);
-	void runStrategy(const Vitals* vitals, const Patient* patient);
+	~AlertContext();
+	void setStrategy(std::string alert);
+	AlertLevel runStrategy(const Vitals* vitals, const Patient* patient);
 private:
-	AbstractAlert currentStrategy;
+	AbstractAlert* currentStrategy;
 };
