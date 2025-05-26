@@ -30,7 +30,6 @@ std::vector<Patient*> PatientFileLoader::loadPatientFile(const std::string& file
             Vitals* newVital = nullptr;
             std::string vital;
 
-            std::cout << "Read line: " << line  << std::endl;
             // use std::getline to split on the |
             std::stringstream lineStream(line);
             std::string token;
@@ -91,12 +90,10 @@ std::vector<Patient*> PatientFileLoader::loadPatientFile(const std::string& file
                             default:
                                 break;
                             }
+                            readingEditSelector++;
                         }
-                        cout << "New vital" << bodyTemperature << bloodPressure << endl;
                         newVital = new Vitals(bodyTemperature, bloodPressure, heartRate, respiratoryRate);
                         if (heartRate != 0) {
-                            cout << "New vital has temp" << bodyTemperature << endl;
-
                             currentPatient->addVitals(newVital);
                         }
                     }
