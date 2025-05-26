@@ -35,6 +35,8 @@ PatientManagementSystem::~PatientManagementSystem()
 void PatientManagementSystem::init()
 {
 	_patientDatabaseLoader->loadPatients(_patients);
+
+
 	for (Patient* p : _patients) {
 		_patientLookup[p->uid()] = p;
 	}

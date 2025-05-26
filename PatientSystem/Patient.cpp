@@ -69,6 +69,7 @@ const std::string& Patient::primaryDiagnosis() const
 void Patient::addVitals(const Vitals* v)
 {
 	_vitals.push_back(v);
+
 	// TODO: calculate alert levels
 }
 

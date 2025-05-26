@@ -18,25 +18,33 @@ void PatientDatabaseLoader::loadPatients(std::vector<Patient*>& patientIn){
     // we simulate loading patients from a database here.
 
     // initialise a birthday from a string. This code can be reused to when loading a birthday from a file
-    std::tm t{ };
-    std::istringstream ss("18-02-1980");
-    ss >> std::get_time(&t, "%d-%m-%Y");
+    
+    //set to 1 for just database, set to 3 for just file, set to 2 for both
+    int loadingSelector = 2;
 
-    // push back a new Patient
-    Patient* p = new Patient("Joe", "Bloggs", t);
-    p->addDiagnosis(Diagnosis::CORDYCEPS_BRAIN_INFECTION);
+    if (loadingSelector <= 2) {
+        std::tm t{ };
+        std::istringstream ss("18-02-1980");
+        ss >> std::get_time(&t, "%d-%m-%Y");
 
-    Vitals* v = new Vitals(37.5f, 80, 60, 16);
-    p->addVitals(v);
+        // push back a new Patient
+        Patient* p = new Patient("Joe", "Bloggs", t);
+        p->addDiagnosis(Diagnosis::CORDYCEPS_BRAIN_INFECTION);
 
-    patientIn.push_back(p);
+        Vitals* v = new Vitals(37.5f, 80, 60, 16);
+        p->addVitals(v);
+        patientIn.push_back(p);
 
-    //now load patients from the patients.txt file
-    PatientFileLoader pfl;
-    std::vector<Patient*> patientsFromFile = pfl.loadPatientFile("patients.txt");
+    }
+    
+    if (loadingSelector >= 2) {
+        //now load patients from the patients.txt file
+        PatientFileLoader pfl;
+        std::vector<Patient*> patientsFromFile = pfl.loadPatientFile("patients.txt");
 
-    for (int i = 0; i < patientsFromFile.size(); i++) {
-        patientIn.push_back(patientsFromFile[i]);
+        for (int i = 0; i < patientsFromFile.size(); i++) {
+            patientIn.push_back(patientsFromFile[i]);
+        }
     }
 }
 
