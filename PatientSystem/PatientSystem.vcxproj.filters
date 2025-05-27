@@ -101,5 +101,8 @@
     <ClInclude Include="AlertContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PatientSubscriber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

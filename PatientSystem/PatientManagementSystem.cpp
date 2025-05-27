@@ -43,6 +43,9 @@ void PatientManagementSystem::init()
 
 	for (Patient* p : _patients) {
 		// TODO: do any processing you need here
+		p->addSubscriber(_hospitalAlertSystem.get());
+		p->addSubscriber(_gpNotificationSystem.get());
+
 	}
 }
 

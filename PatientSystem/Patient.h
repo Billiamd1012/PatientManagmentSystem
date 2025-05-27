@@ -3,9 +3,11 @@
 
 #include <memory>
 #include <vector>
+#include <list>
 
 #include "PatientAlertLevels.h"
 #include "AlertContext.h"
+#include "PatientSubscriber.h"
 
 
 // forward declare classes
@@ -48,11 +50,15 @@ public:
 	void setAlertLevel(AlertLevel level);
 	const AlertLevel alertLevel() const { return _alertLevel; }
 
+	//patient subscribers can be added to this patient
+	void addSubscriber(PatientSubscriber* subscriber);
+
 protected:
 	std::vector<std::string> _diagnosis;
 	std::vector<const Vitals*> _vitals;
 	AlertLevel _alertLevel;
 	AlertContext _alertContext;
+	std::list<PatientSubscriber*> _subscribers;
 
 	friend std::ostream& operator<<(std::ostream& os, const Patient& p);
 };

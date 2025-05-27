@@ -84,6 +84,9 @@ const std::vector<const Vitals*> Patient::vitals() const
 void Patient::setAlertLevel(AlertLevel level)
 {
 	_alertLevel = level;
+	for (std::list<PatientSubscriber*>::iterator it = _subscribers.begin(); it != _subscribers.end(); ++it) {
+		(*it)->stateHasChanged(this);
+	}
 
 	if (_alertLevel > AlertLevel::Green) {
 		cout << "Patient: " << humanReadableID() << "has an alert level: ";
@@ -100,4 +103,9 @@ void Patient::setAlertLevel(AlertLevel level)
 		}
 		cout << endl;
 	}
+}
+
+void Patient::addSubscriber(PatientSubscriber* subscriber)
+{
+	_subscribers.push_back(subscriber);
 }

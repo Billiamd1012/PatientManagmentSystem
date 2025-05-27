@@ -18,3 +18,8 @@ void HospitalAlertSystemFacade::sendAlertForPatient(Patient* p)
 		std::cout << "Patient: " << p->humanReadableID() << " has a critical alert level" << std::endl;
 	}
 }
+
+void HospitalAlertSystemFacade::stateHasChanged(Patient* patient)
+{
+	sendAlertForPatient(patient);
+}
