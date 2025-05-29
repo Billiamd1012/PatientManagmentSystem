@@ -13,11 +13,17 @@ using namespace std;
 const std::string Diagnosis::CORDYCEPS_BRAIN_INFECTION = "Cordyceps Brain Infection";
 const std::string Diagnosis::KEPRALS_SYNDROME = "Kepral’s Syndrome";
 const std::string Diagnosis::ANDROMEDA_STRAIN= "Andromeda Strain";
-
+Patient::~Patient() {
+	for (const Vitals* vital : _vitals) {
+		delete vital; 
+	}
+	_vitals.clear(); 
+}
 
 Patient::Patient(const std::string& firstName, const std::string& lastName, std::tm birthday) :
 	Person(firstName, lastName, birthday),
-	_alertLevel(AlertLevel::Green)
+	_alertLevel(std::make_unique<AlertLevel>(AlertLevel::Green)),
+	_alertContext(std::make_unique<AlertContext>())
 {
 }
 
@@ -60,7 +66,7 @@ std::ostream& operator<<(std::ostream& os, const Patient& p)
 void Patient::addDiagnosis(const std::string& diagnosis)
 {
 	_diagnosis.push_back(diagnosis);
-	_alertContext.setStrategy(_diagnosis.front());
+	_alertContext->setStrategy(_diagnosis.front());
 }
 
 const std::string& Patient::primaryDiagnosis() const
@@ -73,7 +79,7 @@ void Patient::addVitals(const Vitals* v)
 	_vitals.push_back(v);
 
 	// TODO: calculate alert levels
-	setAlertLevel(_alertContext.runStrategy(v, this));
+	setAlertLevel(_alertContext->runStrategy(v, this));
 }
 
 const std::vector<const Vitals*> Patient::vitals() const
@@ -83,14 +89,19 @@ const std::vector<const Vitals*> Patient::vitals() const
 
 void Patient::setAlertLevel(AlertLevel level)
 {
-	_alertLevel = level;
-	for (std::list<PatientSubscriber*>::iterator it = _subscribers.begin(); it != _subscribers.end(); ++it) {
-		(*it)->stateHasChanged(this);
+	*_alertLevel = level;
+	for (const auto& subscriber_ptr : _subscribers) 
+	{ 
+		if (subscriber_ptr) 
+		{ 
+			subscriber_ptr->stateHasChanged(this); 
+		}
 	}
 
-	if (_alertLevel > AlertLevel::Green) {
+	if (*_alertLevel > AlertLevel::Green) 
+	{
 		cout << "Patient: " << humanReadableID() << "has an alert level: ";
-		switch (_alertLevel) {
+		switch (*_alertLevel) {
 		case AlertLevel::Yellow:
 			cout << "Yellow";
 			break;

@@ -22,6 +22,7 @@ public:
 
 class Patient : public Person {
 public:
+	~Patient();
 
 	Patient(const std::string& firstName, const std::string& lastName, std::tm birthday);
 
@@ -48,7 +49,7 @@ public:
 
 	// patients have an alert level (green, yellow, orange, red) calculated from their disease and and their last vitals
 	void setAlertLevel(AlertLevel level);
-	const AlertLevel alertLevel() const { return _alertLevel; }
+	const AlertLevel alertLevel() const { return *_alertLevel; }
 
 	//patient subscribers can be added to this patient
 	void addSubscriber(PatientSubscriber* subscriber);
@@ -56,8 +57,8 @@ public:
 protected:
 	std::vector<std::string> _diagnosis;
 	std::vector<const Vitals*> _vitals;
-	AlertLevel _alertLevel;
-	AlertContext _alertContext;
+	std::unique_ptr<AlertLevel> _alertLevel;
+	std::unique_ptr<AlertContext> _alertContext;
 	std::list<PatientSubscriber*> _subscribers;
 
 	friend std::ostream& operator<<(std::ostream& os, const Patient& p);

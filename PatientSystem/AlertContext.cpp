@@ -4,12 +4,10 @@
 #include "KSAlert.h"
 
 AlertContext::~AlertContext() {
-    // Free the memory when the AlertContext object is destroyed
     delete currentStrategy;
 }
 
 void AlertContext::setStrategy(std::string alert) {
-    // First, delete the old strategy if one exists to prevent memory leaks
     delete currentStrategy;
     currentStrategy = nullptr;
 

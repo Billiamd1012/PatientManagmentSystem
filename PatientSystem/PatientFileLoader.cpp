@@ -14,7 +14,7 @@ using namespace std;
 
 std::vector<Patient*> PatientFileLoader::loadPatientFile(const std::string& file)
 {
-	vector<std::unique_ptr<Patient>> patients{};
+	vector<Patient*> patients{};
 
     std::ifstream inFile(file);
     if (inFile.is_open()) {
@@ -24,10 +24,10 @@ std::vector<Patient*> PatientFileLoader::loadPatientFile(const std::string& file
             std::string firstName;
             std::string lastName;
             std::tm birthday;
-            int loc = 0;
+            size_t loc = 0;
             std::istringstream birthdayStream;
-            std::unique_ptr<Patient> currentPatient = nullptr;
-            std::unique_ptr<Vitals> newVital = nullptr;
+            Patient* currentPatient = nullptr;
+            Vitals* newVital = nullptr;
             std::string vital;
 
             // use std::getline to split on the |
@@ -51,9 +51,8 @@ std::vector<Patient*> PatientFileLoader::loadPatientFile(const std::string& file
                     if (!(birthdayStream >> std::get_time(&birthday, "%d-%m-%Y"))) {
                         std::cerr << "Error parsing birthday: " << token << std::endl;
                     }
-                    currentPatient = std::make_unique<Patient>(firstName, lastName, birthday);
+                    currentPatient = new Patient(firstName, lastName, birthday);
                     patients.push_back(currentPatient);
-                    currentPatient = nullptr;
                     break;
                 case 3:
                     //if there is a current diagnosis then add it
