@@ -39,6 +39,7 @@ protected:
 	std::unique_ptr<GPNotificationSystemFacade> _gpNotificationSystem;
 
 	std::unique_ptr<AbstractPatientDatabaseLoader> _patientDatabaseLoader;
+	std::unique_ptr<AbstractPatientDatabaseLoader> _patientFileLoader;
 
 };
 

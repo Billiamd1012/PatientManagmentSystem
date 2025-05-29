@@ -6,6 +6,7 @@
 
 #include "Patient.h"
 #include "PatientDatabaseLoader.h"
+#include "PatientFileLoaderAdapter.h"
 #include "Vitals.h"
 
 #include "GPNotificationSystemFacade.h"
@@ -17,7 +18,8 @@ using namespace std;
 PatientManagementSystem::PatientManagementSystem() :
 	_patientDatabaseLoader(std::make_unique<PatientDatabaseLoader>()),
 	_hospitalAlertSystem(std::make_unique<HospitalAlertSystemFacade>()),
-	_gpNotificationSystem(std::make_unique<GPNotificationSystemFacade>())
+	_gpNotificationSystem(std::make_unique<GPNotificationSystemFacade>()),
+	_patientFileLoader(std::make_unique<PatientFileLoaderAdapter>())
 {
 	_patientDatabaseLoader->initialiseConnection();
 }
@@ -33,16 +35,23 @@ PatientManagementSystem::~PatientManagementSystem()
 }
 
 void PatientManagementSystem::init()
-{
-	_patientDatabaseLoader->loadPatients(_patients);
+{    
+	//set to 1 for just database, set to 3 for just file, set to 2 for both
+	int loadingSelector = 2;
 
+	if (loadingSelector <= 2) {
+		_patientDatabaseLoader->loadPatients(_patients);
+	}
+
+	if (loadingSelector >= 2) {
+		_patientFileLoader->loadPatients(_patients);
+	}
 
 	for (Patient* p : _patients) {
 		_patientLookup[p->uid()] = p;
 	}
 
 	for (Patient* p : _patients) {
-		// TODO: do any processing you need here
 		p->addSubscriber(_hospitalAlertSystem.get());
 		p->addSubscriber(_gpNotificationSystem.get());
 
