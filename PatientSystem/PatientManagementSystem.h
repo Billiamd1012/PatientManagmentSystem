@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "PatientLoader.h"
 
 
 // forward declare several classes
@@ -38,8 +39,9 @@ protected:
 	std::unique_ptr<HospitalAlertSystemFacade> _hospitalAlertSystem;
 	std::unique_ptr<GPNotificationSystemFacade> _gpNotificationSystem;
 
-	std::unique_ptr<AbstractPatientDatabaseLoader> _patientDatabaseLoader;
-	std::unique_ptr<AbstractPatientDatabaseLoader> _patientFileLoader;
+	std::shared_ptr<AbstractPatientDatabaseLoader> _patientDatabaseLoader;
+	std::shared_ptr<AbstractPatientDatabaseLoader> _patientFileLoader;
+	std::unique_ptr<PatientLoader> _patientLoader;
 
 };
 

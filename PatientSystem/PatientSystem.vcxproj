@@ -149,6 +149,7 @@
     <ClCompile Include="PatientDatabaseLoader.cpp" />
     <ClCompile Include="PatientFileLoader.cpp" />
     <ClCompile Include="PatientFileLoaderAdapter.cpp" />
+    <ClCompile Include="PatientLoader.cpp" />
     <ClCompile Include="PatientManagementSystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Person.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="PatientDatabaseLoader.h" />
     <ClInclude Include="PatientFileLoader.h" />
     <ClInclude Include="PatientFileLoaderAdapter.h" />
+    <ClInclude Include="PatientLoader.h" />
     <ClInclude Include="PatientManagementSystem.h" />
     <ClInclude Include="PatientSubscriber.h" />
     <ClInclude Include="Person.h" />

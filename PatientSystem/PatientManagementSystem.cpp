@@ -16,18 +16,16 @@ using namespace std;
 
 
 PatientManagementSystem::PatientManagementSystem() :
-	_patientDatabaseLoader(std::make_unique<PatientDatabaseLoader>()),
+	_patientDatabaseLoader(std::make_shared<PatientDatabaseLoader>()),
 	_hospitalAlertSystem(std::make_unique<HospitalAlertSystemFacade>()),
 	_gpNotificationSystem(std::make_unique<GPNotificationSystemFacade>()),
-	_patientFileLoader(std::make_unique<PatientFileLoaderAdapter>())
+	_patientFileLoader(std::make_shared<PatientFileLoaderAdapter>()),
+	_patientLoader(std::make_unique<PatientLoader>())
 {
-	_patientDatabaseLoader->initialiseConnection();
 }
 
 PatientManagementSystem::~PatientManagementSystem()
 {
-	_patientDatabaseLoader->closeConnection();
-
 	// clear patient memory
 	for (Patient* p : _patients) {
 		delete p;
@@ -36,20 +34,10 @@ PatientManagementSystem::~PatientManagementSystem()
 
 void PatientManagementSystem::init()
 {    
-	//set to 1 for just database, set to 3 for just file, set to 2 for both
-	int loadingSelector = 2;
+	_patientLoader->addLoader(_patientDatabaseLoader);
+	_patientLoader->addLoader(_patientFileLoader);
 
-	if (loadingSelector <= 2) {
-		_patientDatabaseLoader->loadPatients(_patients);
-	}
-
-	if (loadingSelector >= 2) {
-		_patientFileLoader->loadPatients(_patients);
-	}
-
-	for (Patient* p : _patients) {
-		_patientLookup[p->uid()] = p;
-	}
+	_patientLoader->loadPatients(_patients);
 
 	for (Patient* p : _patients) {
 		p->addSubscriber(_hospitalAlertSystem.get());
